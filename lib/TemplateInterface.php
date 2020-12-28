@@ -11,5 +11,5 @@ interface TemplateInterface
      * @param array $templateVariables
      * @return string
      */
-    public function render(string $templatePath, array $templateVariables): string;
+    public function render(string $templatePath, array $templateVariables=[]): string;
 }

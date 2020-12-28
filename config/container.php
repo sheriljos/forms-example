@@ -14,13 +14,15 @@ $container->add(app\Application\Dashboard\Controller\DashboardController::class)
 
 
 $container->add(app\Application\Logbook\Controller\LogbookController::class)
-    ->addArgument(lib\TemplateInterface::class);
+    ->addArgument(lib\TemplateInterface::class)
+    ->addArgument(lib\responseFactoryInterface::class);
 
 
 /**
  * GENERAL
  */
 $container->add(lib\TemplateInterface::class, lib\TemplateEngine::class );
+$container->add(lib\responseFactoryInterface::class, lib\responseFactory::class );
 
 
 
