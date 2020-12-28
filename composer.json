@@ -1,0 +1,27 @@
+{
+  "name": "Neil Clulow app container",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "app\\": "app",
+      "config\\": "config",
+      "lib\\": "lib"
+    }
+  },
+  "require": {
+    "league/route": "^4.3.1",
+    "league/container": "^3.3",
+    "php-curl-class/php-curl-class": "^8.6",
+    "vlucas/phpdotenv": "^3.6",
+    "php-database-migration/php-database-migration": "3.6.*",
+    "laminas/laminas-httphandlerrunner": "^1.2",
+    "robmorgan/phinx": "^0.12.4",
+    "ext-pdo": "*",
+    "twig/twig": "^3.0",
+    "laminas/laminas-diactoros": "^2.5"
+  },
+  "require-dev": {
+    "vimeo/psalm": "^3.4",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
+  }
+}
