@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace app\Application\Dashboard\Controller;
 
-use config\presentation\TemplateInterface;
 use Laminas\Diactoros\Response\RedirectResponse;
+use lib\TemplateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response;

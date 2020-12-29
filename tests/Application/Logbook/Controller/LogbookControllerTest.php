@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use lib\ResponseFactoryInterface;
+use Prophecy\Prophet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -22,26 +23,17 @@ use Psr\Http\Message\StreamInterface;
 class LogbookControllerTest extends TestCase
 {
 
-    /**
-     * @var LogbookController
-     */
-    private $logbookController;
+    private LogbookController $logbookController;
 
-    /**
-     * @var TemplateInterface
-     */
-    private $templateEngine;
+    private TemplateInterface $templateEngine;
 
-    /**
-     * @var ResponseFactoryInterface
-     */
-    private $responseFactoryInterface;
+    private ResponseFactoryInterface $responseFactoryInterface;
 
-    private \Prophecy\Prophet $prophet;
+    private Prophet $prophet;
 
     public function setup(): void
     {
-        $this->prophet = new \Prophecy\Prophet;
+        $this->prophet = new Prophet();
         $this->templateEngine = $this->prophet->prophesize(TemplateInterface::class);
         $this->responseFactoryInterface = $this->prophet->prophesize(ResponseFactoryInterface::class);
         $this->logbookController = new LogbookController($this->templateEngine->reveal(), $this->responseFactoryInterface->reveal());

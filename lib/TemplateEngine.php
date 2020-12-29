@@ -11,16 +11,13 @@ use Twig\Loader\FilesystemLoader as FilesystemLoader;
 
 class TemplateEngine implements TemplateInterface
 {
-    private  ?TwigEnviorment $twig;
+    private  TwigEnviorment $twig;
 
-    private ?FilesystemLoader $loader;
+    private FilesystemLoader $loader;
 
     // Not ideal setup, will look at better implementations, this was quick and dirty to get it going
-    public function __construct(?TwigEnviorment $twig=null, ?FilesystemLoader $loader=null)
+    public function __construct()
     {
-        $this->twig = $twig;
-        $this->loader = $loader;
-        // set the enviorment up for twig
         $this->loader = new FilesystemLoader('templates');
         $this->twig = new TwigEnviorment($this->loader);
     }
