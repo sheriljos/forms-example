@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace app\Application\Logbook\Controller;
 
-use app\Application\Logbook\Forms\LogbookFormValidator;
 use app\Domain\Logbook\LogbookFormValidatorInterface;
 use app\Domain\Logbook\Models\Request;
-use lib\CsrfManagerInterface;
 use lib\FormBuilderInterface;
 use lib\responseFactoryInterface;
 use lib\TemplateInterface;
