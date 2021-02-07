@@ -1,4 +1,4 @@
-# Symfony Forms in custom PHP app POC
+# Symfony Forms In Custom PHP App POC
 
 This is a proof of concept. Here i am implementing symfony forms in a custom (non-symfony) native PHP project. I am trying to keep to clean architecture and keep everything as SOLID as possible. In this project i make use of simple routing, Dependency injection and some other familiar things you might see in the codebase. Please note there is not any logging in this application nor is there any connection to the DB, i print and die on a successful submit.
 
