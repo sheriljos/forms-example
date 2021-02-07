@@ -1,18 +1,15 @@
 <?php
+
+use Laminas\Diactoros\ServerRequestFactory;
 use League\Route\Http\Exception\BadRequestException;
 use League\Route\Http\Exception\NotFoundException;
-use Zend\Diactoros\ServerRequestFactory;
 
-
-// Allow from any origin
-// This is to avoid any CORS issues in local development, still need to see what happens when i deploy
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: *");
     header('Access-Control-Allow-Credentials: true');
     header('Access-Control-Max-Age: 86400');    // cache for 1 day
 }
 
-// Access-Control headers are received during OPTIONS requests
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
@@ -24,18 +21,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-
 $request = ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
 
 $router = (new League\Route\Router)->setStrategy($strategy);
 
 try {
-    /**
-     * Genral
-     */
     $router->map('GET', '/', 'app\Application\Dashboard\Controller\DashboardController::index');
     $router->map('GET', '/logbooks', 'app\Application\Logbook\Controller\LogbookController::get');
-
+    $router->map('GET', '/logbooks/create', 'app\Application\Logbook\Controller\LogbookFormController::create');
+    $router->map('POST', '/logbooks/create', 'app\Application\Logbook\Controller\LogbookFormController::create');
+    $router->map('GET', '/login', 'app\Application\Auth\Controller\AuthenticationController::login');
+    $router->map('POST', '/login', 'app\Application\Auth\Controller\AuthenticationController::login');
 
     $response = $router->dispatch($request);
     (new Laminas\HttpHandlerRunner\Emitter\SapiEmitter)->emit($response);

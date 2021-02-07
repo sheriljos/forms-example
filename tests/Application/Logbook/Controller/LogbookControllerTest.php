@@ -22,12 +22,11 @@ use Psr\Http\Message\StreamInterface;
 
 class LogbookControllerTest extends TestCase
 {
-
     private LogbookController $logbookController;
 
-    private TemplateInterface $templateEngine;
+    private ObjectProphecy $templateEngine;
 
-    private ResponseFactoryInterface $responseFactoryInterface;
+    private ObjectProphecy $responseFactoryInterface;
 
     private Prophet $prophet;
 

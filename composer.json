@@ -13,12 +13,19 @@
     "league/container": "^3.3",
     "php-curl-class/php-curl-class": "^8.6",
     "vlucas/phpdotenv": "^3.6",
-    "php-database-migration/php-database-migration": "3.6.*",
     "laminas/laminas-httphandlerrunner": "^1.2",
     "robmorgan/phinx": "^0.12.4",
     "ext-pdo": "*",
-    "twig/twig": "^3.0",
-    "laminas/laminas-diactoros": "^2.5"
+    "twig/twig": "2.10",
+    "laminas/laminas-diactoros": "^2.5",
+    "symfony/form": "5.0.0",
+    "symfony/twig-bridge": "5.0.0",
+    "symfony/security-csrf": "5.0.0",
+    "symfony/translation": "5.0.0",
+    "twig/extensions": "2.0.x-dev",
+    "symfony/psr-http-message-bridge": "^2.0",
+    "symfony/validator": "^5.2",
+    "doctrine/annotations": "^1.11"
   },
   "require-dev": {
     "vimeo/psalm": "^3.4",

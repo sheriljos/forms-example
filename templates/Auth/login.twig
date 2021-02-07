@@ -3,10 +3,7 @@
 {% block title %}Logbook{% endblock %}
 
 {% block content %}
-    <h1>Logbook</h1>
-    <p class="important">
-        Welcome to my awesome logbook {{ name }}.
-    </p>
+    <h1>Login</h1>
 
     <ul>
         {% for error in errors %}
@@ -15,6 +12,6 @@
     </ul>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+        {{ form_widget(form) }}
     {{ form_end(form) }}
 {% endblock %}

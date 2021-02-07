@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace app\Application\Logbook\Controller;
 
+use lib\FormBuilderInterface;
 use lib\responseFactoryInterface;
 use lib\TemplateInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -14,6 +15,7 @@ class LogbookController
      * @var TemplateInterface
      */
     private TemplateInterface $templateEngine;
+
     /**
      * @var responseFactoryInterface
      */
@@ -30,7 +32,7 @@ class LogbookController
         return $this->responseFactory->html($this->templateEngine->render(
             'Logbook/index.twig',
             [
-                'name' => 'neil'
+                'name' => 'Logbooks'
             ]
         ));
     }

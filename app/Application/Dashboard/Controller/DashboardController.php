@@ -24,7 +24,7 @@ class dashboardController
     public function index(ServerRequestInterface $request): ResponseInterface
     {
         return new Response\HtmlResponse($this->templateEngine->render(
-            'test.twig',['message' => 'neil']
+            'test.twig',['message' => 'Hello... This is a simple example of me implementing symfony forms into a non-symfony php project by making use of the helpers provided by symfony']
         ));
     }
 
