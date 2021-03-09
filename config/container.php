@@ -19,8 +19,7 @@ $container->add(app\Application\Logbook\Controller\LogbookController::class)
 $container->add(app\Application\Logbook\Controller\LogbookFormController::class)
     ->addArgument(lib\TemplateInterface::class)
     ->addArgument(lib\responseFactoryInterface::class)
-    ->addArgument(lib\FormBuilderInterface::class)
-    ->addArgument(app\Domain\Logbook\LogbookFormValidatorInterface::class);
+    ->addArgument(lib\FormBuilderInterface::class);
 
 $container->add(app\Application\Auth\Controller\AuthenticationController::class)
     ->addArgument(lib\TemplateInterface::class)
