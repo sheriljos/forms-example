@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace app\Application\Logbook\Controller;
 
-use app\Domain\Logbook\LogbookFormValidatorInterface;
-use app\Domain\Logbook\Models\Request;
 use lib\FormBuilderInterface;
 use lib\responseFactoryInterface;
 use lib\TemplateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\Form\FormErrorIterator;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
 class LogbookFormController
 {
@@ -29,54 +30,48 @@ class LogbookFormController
      */
     private FormBuilderInterface $formBuilder;
 
-    /**
-     * @var LogbookFormValidatorInterface
-     */
-    private LogbookFormValidatorInterface $formValidator;
 
     public function __construct
     (
         TemplateInterface $templateEngine,
         responseFactoryInterface $responseFactory,
-        FormBuilderInterface $formBuilder,
-        LogbookFormValidatorInterface $formValidator
+        FormBuilderInterface $formBuilder
     ) {
         $this->templateEngine = $templateEngine;
         $this->responseFactory = $responseFactory;
         $this->formBuilder = $formBuilder;
-        $this->formValidator = $formValidator;
     }
 
     public function create(ServerRequestInterface $request): ResponseInterface
     {
         $form =  $this->formBuilder->buildForm();
-        $errorList = [];
 
         if ($request->getMethod() === "POST") {
-            $formName = $form->getName();
-            // Try and seperate this for the Request object
-            $post = $request->getParsedBody()[$formName];
 
-            $submittedToken = $post['_token'];
+            $post = $request->getParsedBody()[$form->getName()];
+            $form->submit($post);
+            $errorList = $form->getErrors(true);
 
-            $request = new Request($post['name'], $post['description'], $submittedToken, $formName);
-
-            $form->submit($post); // Should this be removed or not, what benefits do we get from this ? Seeing as i have the LogbookRequest
-
-            $errorList = $this->formValidator->validateInput($request); // Need to look into doing the validator better, because what i am currently doing is ... yeah
-            $isValid = (empty($errorList) ? true : false);
-            if ($form->isSubmitted() && $isValid) {
-                echo "<pre>"; print_r($request);
+            if ($form->isValid() && $form->isSubmitted()) {
+                //Here we are done and know we have a valid form
+                echo "<pre>"; print_r($post);
                 die('form is valid..now we can do what we want to');
             }
+
+            return $this->responseFactory->html($this->formatResponseTemplate($form, $errorList));
         }
 
-        return $this->responseFactory->html($this->templateEngine->render(
+        return $this->responseFactory->html($this->formatResponseTemplate($form));
+    }
+
+    private function formatResponseTemplate(FormInterface $form, FormErrorIterator $formErrors=null): string
+    {
+        return $this->templateEngine->render(
             'Logbook/form.twig',
             [
                 'form' => $form->createView(),
-                'errors' => $errorList
+                'errors' => $formErrors
             ]
-        ));
+        );
     }
 }
