@@ -4,74 +4,92 @@ declare(strict_types=1);
 
 namespace app\Application\Logbook\Controller;
 
-use lib\FormBuilderInterface;
+use lib\Fields\CheckboxInput;
+use lib\Fields\RadioButtonInput;
+use lib\Fields\TextAreaInput;
+use lib\Fields\TextInput;
+use lib\FormBuilderFactoryInterface;
+use lib\FormFactoryInterface;
 use lib\responseFactoryInterface;
 use lib\TemplateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\Form\FormErrorIterator;
+// Last bit of symfony to get rid of, i will create my own custom rules extended from the assert base that we can use our own classes and then
+// if we do not use symfony anymore we do not have to change it in every controller
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Length;
 
 class LogbookFormController
 {
-    /**
-     * @var TemplateInterface
-     */
     private TemplateInterface $templateEngine;
-
-    /**
-     * @var responseFactoryInterface
-     */
     private responseFactoryInterface $responseFactory;
-
-    /**
-     * @var FormBuilderInterface
-     */
-    private FormBuilderInterface $formBuilder;
-
+    private FormBuilderFactoryInterface $formBuilder;
+    private FormInterface $form;
 
     public function __construct
     (
         TemplateInterface $templateEngine,
         responseFactoryInterface $responseFactory,
-        FormBuilderInterface $formBuilder
+        FormBuilderFactoryInterface $formBuilder
     ) {
         $this->templateEngine = $templateEngine;
         $this->responseFactory = $responseFactory;
         $this->formBuilder = $formBuilder;
+        $this->form = $this->initializeForm();
     }
 
-    public function create(ServerRequestInterface $request): ResponseInterface
+    public function get(ServerRequestInterface $request): ResponseInterface
     {
-        $form =  $this->formBuilder->buildForm();
-
-        if ($request->getMethod() === "POST") {
-
-            $post = $request->getParsedBody()[$form->getName()];
-            $form->submit($post);
-            $errorList = $form->getErrors(true);
-
-            if ($form->isValid() && $form->isSubmitted()) {
-                //Here we are done and know we have a valid form
-                echo "<pre>"; print_r($form->getData());
-                die('form is valid..now we can do what we want to');
-            }
-            //Form is not valid and will return with a list of errors
-            return $this->responseFactory->html($this->formatResponseTemplate($form, $errorList));
-        }
-        // Simply just render on a get
-        return $this->responseFactory->html($this->formatResponseTemplate($form));
-    }
-
-    private function formatResponseTemplate(FormInterface $form, FormErrorIterator $formErrors=null): string
-    {
-        return $this->templateEngine->render(
+        return  $this->responseFactory->html($this->templateEngine->render(
             'Logbook/form.twig',
             [
-                'form' => $form->createView(),
-                'errors' => $formErrors
+                'form' =>  $this->form->createView(),
+                'errors' => []
             ]
+        ));
+    }
+
+    private function initializeForm(): FormInterface
+    {
+        return $this->form = $this->formBuilder->create(
+            'formDemo',
+            '/neils-form-test',
+            'token',
+            new TextInput(
+                'name',
+                'Name',
+                [
+                    new Length(['min' => 5]),
+                    new Assert\NotBlank()
+                ],
+            ),
+            new TextInput(
+                'description',
+                'Description',
+                [
+                    new Length(['min' => 5]),
+                    new Assert\NotBlank()
+                ],
+                ['input', 'test']
+            ),
+            new TextAreaInput(
+                'TextArea',
+                'textarea',
+                []
+            ),
+            new CheckboxInput(
+                'Checkbox',
+                'checkbox',
+                [],
+                ['test1','test2']
+            ),
+            new RadioButtonInput(
+                'RadioButton',
+                'radioButton',
+                [],
+                ['test1','test2']
+            ),
         );
     }
 }
