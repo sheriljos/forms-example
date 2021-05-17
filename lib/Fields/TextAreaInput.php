@@ -4,53 +4,24 @@ declare(strict_types=1);
 
 namespace lib\Fields;
 
-use lib\FieldInterface;
+use lib\InputFieldInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class TextAreaInput implements FieldInterface
+class TextAreaInput implements InputFieldInterface
 {
-    /**
-     * @var string
-     */
     private string $name;
-
-    /**
-     * @var string
-     */
     private string $label;
-
-    /**
-     * @var string
-     */
     private string $placeholder;
-
-    /**
-     * @var array
-     */
-    private array $classNames;
-
-    /**
-     * @var string
-     */
-    private string $type;
-
-    /**
-     * @var array
-     */
     private array $constraints;
 
     public function __construct(
         string $name,
         string $label,
-        array $constraints,
-        array $classNames = ['input'],
-        string $type = TextareaType::class,
-        string $placeholder = "Please enter text here"
+        array $constraints = [],
+        string $placeholder = "Please enter input here"
     ) {
         $this->name = $name;
         $this->label = $label;
-        $this->classNames = $classNames;
-        $this->type = $type;
         $this->placeholder = $placeholder;
         $this->constraints = $constraints;
     }
@@ -65,6 +36,11 @@ class TextAreaInput implements FieldInterface
         return $this->label;
     }
 
+    public function getConstraints(): array
+    {
+        return $this->constraints;
+    }
+
     public function getPlaceholder(): string
     {
         return $this->placeholder;
@@ -72,21 +48,11 @@ class TextAreaInput implements FieldInterface
 
     public function getClassNames(): array
     {
-        return $this->classNames;
-    }
-
-    public function getConstraints(): array
-    {
-        return $this->constraints;
+        return ['input'];
     }
 
     public function getType(): string
     {
-        return $this->type;
-    }
-
-    public function getOptions(): array
-    {
-        return [];
+        return TextareaType::class;
     }
 }
