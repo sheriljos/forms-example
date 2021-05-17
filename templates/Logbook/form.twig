@@ -7,7 +7,7 @@
     <p class="important">
         Welcome to my awesome logbook {{ name }}.
     </p>
-
+    {#  Two options to display errors are currently being displayed, please note the wiget is symfony way and this below us is a custom implementation  #}
     <ul>
         {% for error in errors %}
             <li>{{ error.message }}</li>
@@ -15,6 +15,6 @@
     </ul>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+        {{ form_widget(form) }}
     {{ form_end(form) }}
 {% endblock %}

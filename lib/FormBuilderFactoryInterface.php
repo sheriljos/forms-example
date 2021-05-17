@@ -2,12 +2,16 @@
 
 namespace lib;
 
-use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 
 interface FormBuilderFactoryInterface
 {
     /**
-     * @return FormFactoryInterface
+     * @param string $name
+     * @param string $formAction
+     * @param string $csrfTokenName
+     * @param FieldInterface ...$fields
+     * @return FormInterface
      */
-    public function createFormBuilderFactory(): FormFactoryInterface;
+    public function create(string $name, string $formAction, string $csrfTokenName, FieldInterface ...$fields): FormInterface;
 }
