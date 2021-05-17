@@ -28,7 +28,7 @@ $router = (new League\Route\Router)->setStrategy($strategy);
 try {
     $router->map('GET', '/', 'app\Application\Dashboard\Controller\DashboardController::index');
     $router->map('GET', '/logbooks', 'app\Application\Logbook\Controller\LogbookController::get');
-    $router->map('GET', '/logbooks/create', 'app\Application\Logbook\Controller\LogbookFormController::create');
+    $router->map('GET', '/logbooks/create', 'app\Application\Logbook\Controller\LogbookFormController::get');
     $router->map('POST', '/logbooks/create', 'app\Application\Logbook\Controller\LogbookFormController::create');
     $router->map('GET', '/login', 'app\Application\Auth\Controller\AuthenticationController::login');
     $router->map('POST', '/login', 'app\Application\Auth\Controller\AuthenticationController::login');

@@ -54,13 +54,13 @@ class LogbookFormController
 
             if ($form->isValid() && $form->isSubmitted()) {
                 //Here we are done and know we have a valid form
-                echo "<pre>"; print_r($post);
+                echo "<pre>"; print_r($form->getData());
                 die('form is valid..now we can do what we want to');
             }
-
+            //Form is not valid and will return with a list of errors
             return $this->responseFactory->html($this->formatResponseTemplate($form, $errorList));
         }
-
+        // Simply just render on a get
         return $this->responseFactory->html($this->formatResponseTemplate($form));
     }
 
