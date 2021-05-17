@@ -4,62 +4,26 @@ declare(strict_types=1);
 
 namespace lib\Fields;
 
-use lib\FieldInterface;
+use lib\OptionFieldInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-class CheckboxInput implements FieldInterface
+class CheckboxInput implements OptionFieldInterface
 {
-    /**
-     * @var string
-     */
     private string $name;
-
-    /**
-     * @var string
-     */
     private string $label;
-
-    /**
-     * @var string
-     */
-    private string $placeholder;
-
-    /**
-     * @var array
-     */
-    private array $classNames;
-
-    /**
-     * @var string
-     */
-    private string $type;
-
-    /**
-     * @var array
-     */
-    private array $constraints;
-
-    /**
-     * @var array
-     */
     private array $options;
+    private array $constraints;
 
     public function __construct(
         string $name,
         string $label,
-        array $constraints,
         array $options,
-        string $type = CheckboxType::class,
-        string $placeholder = "Please enter input here",
-        array $classNames = ['checkbox']
+        array $constraints = []
     ) {
         $this->name = $name;
         $this->label = $label;
-        $this->classNames = $classNames;
-        $this->constraints = $constraints;
         $this->options = $options;
-        $this->type = $type;
-        $this->placeholder = $placeholder;
+        $this->constraints = $constraints;
     }
 
     public function getName(): string
@@ -72,14 +36,9 @@ class CheckboxInput implements FieldInterface
         return $this->label;
     }
 
-    public function getPlaceholder(): string
+    public function getOptions(): array
     {
-        return $this->placeholder;
-    }
-
-    public function getClassNames(): array
-    {
-        return $this->classNames;
+        return $this->options;
     }
 
     public function getConstraints(): array
@@ -87,13 +46,13 @@ class CheckboxInput implements FieldInterface
         return $this->constraints;
     }
 
-    public function getType(): string
+    public function getClassNames(): array
     {
-        return $this->type;
+        return ['checkbox'];
     }
 
-    public function getOptions(): array
+    public function getType(): string
     {
-        return $this->options;
+        return CheckboxType::class;
     }
 }

@@ -62,7 +62,7 @@ class LogbookFormController
                 [
                     new Length(['min' => 5]),
                     new Assert\NotBlank()
-                ],
+                ]
             ),
             new TextInput(
                 'description',
@@ -70,24 +70,20 @@ class LogbookFormController
                 [
                     new Length(['min' => 5]),
                     new Assert\NotBlank()
-                ],
-                ['input', 'test']
+                ]
             ),
             new TextAreaInput(
                 'TextArea',
-                'textarea',
-                []
+                'textarea'
             ),
             new CheckboxInput(
                 'Checkbox',
                 'checkbox',
-                [],
                 ['test1','test2']
             ),
             new RadioButtonInput(
                 'RadioButton',
                 'radioButton',
-                [],
                 ['test1','test2']
             ),
         );
