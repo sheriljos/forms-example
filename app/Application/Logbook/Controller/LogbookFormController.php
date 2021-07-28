@@ -35,7 +35,7 @@ class LogbookFormController
         $this->templateEngine = $templateEngine;
         $this->responseFactory = $responseFactory;
         $this->formBuilder = $formBuilder;
-        $this->form = $this->initializeForm();
+        $this->form = $this->initializeForm(); // Abstracted to priv function as this i did not want to do in constructor || Can also be abstracted to an separate class and be re-usable in a sense
     }
 
     public function get(ServerRequestInterface $request): ResponseInterface
@@ -49,17 +49,42 @@ class LogbookFormController
         ));
     }
 
+    public function post(ServerRequestInterface $request): ResponseInterface
+    {
+
+        // Get Post Data
+        $formData = $request->getParsedBody()[$this->form->getName()];
+        //Submit form to backend component to see if any attached validation errors are returned from the system
+        $this->form->submit($formData);
+
+        //Form is valid, do what you please
+        if ($this->form->isValid() && $this->form->isSubmitted()) {
+            echo "<pre>";
+            print_r($request->getParsedBody());
+            die('validFormData');
+        }
+
+        //Form was not valid
+        return  $this->responseFactory->html($this->templateEngine->render(
+            'Logbook/form.twig',
+            [
+                'form' =>  $this->form->createView(),
+                'errors' => $this->form->getErrors(true)
+            ]
+        ));
+    }
+
     private function initializeForm(): FormInterface
     {
         return $this->form = $this->formBuilder->create(
             'formDemo',
-            '/neils-form-test',
+            '/logbooks/create',
             'token',
             new TextInput(
                 'name',
                 'Name',
                 [
-                    new Length(['min' => 5]),
+                    new Length(['min' => 6]),
                     new Assert\NotBlank()
                 ]
             ),

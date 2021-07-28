@@ -23,11 +23,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class FormBuilderFactory implements FormBuilderFactoryInterface
 {
     private UriSafeTokenGenerator $csrfGenerator;
-
     private CsrfTokenManager $csrfManager;
-
     private NativeSessionTokenStorage $csrfStorage;
-
     private ValidatorInterface $validator;
 
     public function __construct()
@@ -45,9 +42,12 @@ class FormBuilderFactory implements FormBuilderFactoryInterface
      * @param FieldInterface ...$fields
      * @return FormInterface
      */
-    public function create(string $name, string $formAction, string $csrfTokenName, FieldInterface ...$fields): \Symfony\Component\Form\FormInterface  // Please note this will interfaced by our own interface
-    {
-
+    public function create(
+        string $name,
+        string $formAction,
+        string $csrfTokenName,
+        FieldInterface ...$fields
+    ): \Symfony\Component\Form\FormInterface {
         $builder = Forms::createFormFactoryBuilder()
             ->addExtension(new CsrfExtension($this->csrfManager))
             ->addExtension(new ValidatorExtension($this->validator))
